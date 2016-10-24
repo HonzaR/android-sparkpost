@@ -1,18 +1,28 @@
-package com.noelchew.sparkpostutil;
+package com.honzar.sparkpostutil;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.noelchew.sparkpostutil.library.EmailListener;
-import com.noelchew.sparkpostutil.library.SparkPostEmailUtil;
-import com.noelchew.sparkpostutil.library.SparkPostRecipient;
-import com.noelchew.sparkpostutil.library.SparkPostSender;
+import com.honzar.sparkpostutil.library.EmailListener;
+import com.honzar.sparkpostutil.library.SparkPostEmailUtil;
+import com.honzar.sparkpostutil.library.SparkPostFile;
+import com.honzar.sparkpostutil.library.SparkPostRecipient;
+import com.honzar.sparkpostutil.library.SparkPostSender;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,12 +69,21 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.show();
             }
 
+            File[] front = getAllFilesFromDirectory(new File(getExternalFilesDir(null) + "/" + 20173852 + "/front/"));
+
+            ArrayList<SparkPostFile> files = new ArrayList<>();
+            files.add(new SparkPostFile("image/jpeg", "front", getBase64FromFile(front[0])));
+
+            String html = "<html><body>Here is your inline image!<br> <img src=\\\"cid:front\\\">dgthjnfghnfgt</body></html>";
+
             SparkPostEmailUtil.sendEmail(MainActivity.this,
                     etSparkPostApiKey.getText().toString(),
                     etSubject.getText().toString(),
                     etContent.getText().toString(),
-                    new SparkPostSender(etSenderEmail.getText().toString(), getString(R.string.app_name)),
                     new SparkPostRecipient(etRecipientEmail.getText().toString()),
+                    new SparkPostSender(etSenderEmail.getText().toString(), getString(R.string.app_name)),
+                    html,
+                    files,
                     new EmailListener() {
                         @Override
                         public void onSuccess() {
@@ -91,4 +110,30 @@ public class MainActivity extends AppCompatActivity {
                     });
         }
     };
+
+
+    public static File[] getAllFilesFromDirectory(File dir)
+    {
+        File[] files = null;
+        if (dir.exists()) {
+            files = dir.listFiles();
+        }
+        return files;
+    }
+
+    public static String getBase64FromFile(File file)
+    {
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap bm = BitmapFactory.decodeStream(fis);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        return Base64.encodeToString(b, Base64.DEFAULT);
+    }
 }

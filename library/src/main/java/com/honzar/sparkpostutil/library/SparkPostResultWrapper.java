@@ -1,11 +1,13 @@
-package com.noelchew.sparkpostutil.library;
+package com.honzar.sparkpostutil.library;
 
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 /**
- * Created by noelchew on 4/27/16.
+ * Created by Honza Rychnovský on 24.10.2016.
+ * AppsDevTeam
+ * honzar@appsdevteam.com
  */
 public class SparkPostResultWrapper {
     private ArrayList<SparkPostError> errors;

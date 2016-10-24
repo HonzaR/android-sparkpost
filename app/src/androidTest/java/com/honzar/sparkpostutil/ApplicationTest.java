@@ -1,4 +1,4 @@
-package com.noelchew.sparkpostutil;
+package com.honzar.sparkpostutil;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

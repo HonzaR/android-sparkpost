@@ -1,9 +1,14 @@
-package com.noelchew.sparkpostutil.library;
+package com.honzar.sparkpostutil.library;
 
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+/**
+ * Created by Honza Rychnovský on 24.10.2016.
+ * AppsDevTeam
+ * honzar@appsdevteam.com
+ */
 public class SparkPostEmailJsonRequest {
     public static final String API_BASE_URL = "https://api.sparkpost.com/api/v1/";
     public static final String EMAIL_API_PATH = "transmissions?num_rcpt_errors=3";
@@ -11,9 +16,9 @@ public class SparkPostEmailJsonRequest {
     private ArrayList<SparkPostRecipient> recipients;
     private SparkPostContent content;
 
-    public SparkPostEmailJsonRequest(String subject, String message, ArrayList<SparkPostRecipient> recipients, SparkPostSender sender) {
+    public SparkPostEmailJsonRequest(String subject, String message, ArrayList<SparkPostRecipient> recipients, SparkPostSender sender, String html, ArrayList<SparkPostFile> files) {
         this.recipients = recipients;
-        this.content = new SparkPostContent(sender, subject, message);
+        this.content = new SparkPostContent(sender, subject, message, html, files);
     }
 
     public SparkPostEmailJsonRequest(String subject, String message, String recipientEmail, String senderEmail, String senderName) {
@@ -22,7 +27,7 @@ public class SparkPostEmailJsonRequest {
         this.recipients.add(recipient);
 
         SparkPostSender sender = new SparkPostSender("feedback@sparkpostbox.com", senderName);
-        this.content = new SparkPostContent(sender, subject, message);
+        this.content = new SparkPostContent(sender, subject, message, null, null);
     }
 
     public String toString() {

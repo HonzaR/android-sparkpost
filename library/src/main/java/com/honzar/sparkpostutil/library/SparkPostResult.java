@@ -1,7 +1,9 @@
-package com.noelchew.sparkpostutil.library;
+package com.honzar.sparkpostutil.library;
 
 /**
- * Created by noelchew on 4/27/16.
+ * Created by Honza Rychnovský on 24.10.2016.
+ * AppsDevTeam
+ * honzar@appsdevteam.com
  */
 public class SparkPostResult {
     private int total_rejected_recipients;

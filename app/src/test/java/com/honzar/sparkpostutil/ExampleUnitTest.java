@@ -1,4 +1,4 @@
-package com.noelchew.sparkpostutil;
+package com.honzar.sparkpostutil;
 
 import org.junit.Test;
 
