@@ -1,17 +1,25 @@
-# android-sparkpost
+# android-sparkpost-with-attachments
 
 [![Release](https://jitpack.io/v/noelchew/android-sparkpost.svg)](https://jitpack.io/#noelchew/android-sparkpost)
 
 Android Library for SparkPost -> Email Delivery Service & Transactional Email
 
+This is improvement of NoelChew's android-sparkpost library. We add possibility to send files with SparkPost service in Base64 encoding.
+
 ## How to Use
 ```
+ArrayList<SparkPostFile> files = new ArrayList<>();
+File[] fs = getAllFilesFromDirectory(new File(getExternalFilesDir(null)));
+files.add(new SparkPostFile("image/jpeg", "attachment", getBase64FromFile(front[0])));
+String html = "<html><body>Here is your inline image!<br> <img src=\\\"cid:attachment\\\"></body></html>";
 SparkPostEmailUtil.sendEmail(context,
                     sparkPostApiKey,
                     subject,
                     message,
                     new SparkPostSender(senderEmail, senderName),
                     new SparkPostRecipient(recipientEmail),
+                    html,
+                    files,
                     new EmailListener() {
                         @Override
                         public void onSuccess() {
@@ -56,14 +64,14 @@ allprojects {
 Application level gradle:
 ```
 dependencies {
-    compile 'com.github.noelchew:android-sparkpost:x.y.z'
+    compile 'com.github.honzar:android-sparkpost-with-attachments:x.y.z'
 }
 ```
 Note: do not add the jitpack.io repository under buildscript
 
 ## Proguard
 ```
--keep class com.noelchew.sparkpostutil.library.** {*;}
+-keep class com.honzar.sparkpostutil.library.** {*;}
 ```
 
 ## Disclaimer

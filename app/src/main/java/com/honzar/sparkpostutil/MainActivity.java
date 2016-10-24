@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String SENDER_EMAIL = "sender@sparkpost.com";
     private static final String RECIPIENT_EMAIL = "your_email@gmail.com";
     private static final String SUBJECT = "SparkPostUtil - Example";
-    private static final String CONTENT = "https://github.com/NoelChew/SparkPostUtil";
+    private static final String CONTENT = "https://github.com/HonzaR/SparkPostUtil";
 
     private EditText etSparkPostApiKey, etSenderEmail, etRecipientEmail, etSubject, etContent;
     private Button btnSend;
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<SparkPostFile> files = new ArrayList<>();
             files.add(new SparkPostFile("image/jpeg", "front", getBase64FromFile(front[0])));
 
-            String html = "<html><body>Here is your inline image!<br> <img src=\\\"cid:front\\\">dgthjnfghnfgt</body></html>";
+            String html = "<html><body>Here is your inline image!<br> <img src=\\\"cid:front\\\"></body></html>";
 
             SparkPostEmailUtil.sendEmail(MainActivity.this,
                     etSparkPostApiKey.getText().toString(),

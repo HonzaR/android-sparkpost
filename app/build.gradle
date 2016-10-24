@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.noelchew.sparkpostutil"
+        applicationId "com.honzar.sparkpostutil"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1

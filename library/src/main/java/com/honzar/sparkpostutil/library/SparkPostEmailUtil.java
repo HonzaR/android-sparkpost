@@ -9,7 +9,9 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 
 /**
- * Created by Honza Rychnovský on 24.10.2016.
+ * Created by noelchew on 11/23/15.
+ *
+ * Updated by Honza Rychnovský on 24.10.2016.
  * AppsDevTeam
  * honzar@appsdevteam.com
  */

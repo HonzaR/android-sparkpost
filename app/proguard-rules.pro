@@ -16,4 +16,4 @@
 #   public *;
 #}
 
--keep class com.noelchew.sparkpostutil.library.** {*;}
+-keep class com.honzar.sparkpostutil.library.** {*;}
