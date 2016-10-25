@@ -19,20 +19,20 @@ public class SparkPostEmailUtil {
     public static void sendEmail(Context context, String apiKey, String subject, String message, SparkPostSender sender, SparkPostRecipient recipient, EmailListener listener) {
         ArrayList<SparkPostRecipient> recipients = new ArrayList<>();
         recipients.add(recipient);
-        sendEmail(context, apiKey, subject, message, sender, recipients, null, null, listener);
+        sendEmail(context, apiKey, subject, message, sender, recipients, null, null, null, listener);
     }
 
     public static void sendEmail(Context context, String apiKey, String subject, String message, SparkPostRecipient recipient, EmailListener listener) {
         SparkPostSender sender = new SparkPostSender("feedback@sparkpostbox.com", "unknown user");
         ArrayList<SparkPostRecipient> recipients = new ArrayList<>();
         recipients.add(recipient);
-        sendEmail(context, apiKey, subject, message, sender, recipients, null, null, listener);
+        sendEmail(context, apiKey, subject, message, sender, recipients, null, null, null, listener);
     }
 
-    public static void sendEmail(Context context, String apiKey, String subject, String message, SparkPostRecipient recipient, SparkPostSender sender, String html, ArrayList<SparkPostFile> files, EmailListener listener) {
+    public static void sendEmail(Context context, String apiKey, String subject, String message, SparkPostRecipient recipient, SparkPostSender sender, String html, ArrayList<SparkPostFile> files, String replyTo, EmailListener listener) {
         ArrayList<SparkPostRecipient> recipients = new ArrayList<>();
         recipients.add(recipient);
-        sendEmail(context, apiKey, subject, message, sender, recipients, html, files, listener);
+        sendEmail(context, apiKey, subject, message, sender, recipients, html, files, replyTo, listener);
     }
 
     public static void sendEmail(Context context, String apiKey, String subject, String message, String recipientEmail, EmailListener listener) {
@@ -43,10 +43,10 @@ public class SparkPostEmailUtil {
 
     public static void sendEmail(Context context, String apiKey, String subject, String message, ArrayList<SparkPostRecipient> recipients, EmailListener listener) {
         SparkPostSender sender = new SparkPostSender("feedback@sparkpostbox.com", "unknown user");
-        sendEmail(context, apiKey, subject, message, sender, recipients, null, null, listener);
+        sendEmail(context, apiKey, subject, message, sender, recipients, null, null, null, listener);
     }
 
-    public static void sendEmail(final Context context, String apiKey, String subject, String message, SparkPostSender sender, ArrayList<SparkPostRecipient> recipients, String html, ArrayList<SparkPostFile> files, final EmailListener emailListener) {
+    public static void sendEmail(final Context context, String apiKey, String subject, String message, SparkPostSender sender, ArrayList<SparkPostRecipient> recipients, String html, ArrayList<SparkPostFile> files, String replyTo, final EmailListener emailListener) {
         FutureCallback<String> callback = new FutureCallback<String>() {
             @Override
             public void onCompleted(Exception e, String result) {
@@ -74,7 +74,7 @@ public class SparkPostEmailUtil {
                 }
             }
         };
-        SparkPostEmailJsonRequest sparkPostEmailJsonRequest = new SparkPostEmailJsonRequest(subject, message, recipients, sender, html, files);
+        SparkPostEmailJsonRequest sparkPostEmailJsonRequest = new SparkPostEmailJsonRequest(subject, message, recipients, sender, html, files, replyTo);
         Ion.with(context)
                 .load(SparkPostEmailJsonRequest.API_BASE_URL + SparkPostEmailJsonRequest.EMAIL_API_PATH)
                 .addHeader("Content-Type", "application/json")

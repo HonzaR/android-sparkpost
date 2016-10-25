@@ -18,9 +18,9 @@ public class SparkPostEmailJsonRequest {
     private ArrayList<SparkPostRecipient> recipients;
     private SparkPostContent content;
 
-    public SparkPostEmailJsonRequest(String subject, String message, ArrayList<SparkPostRecipient> recipients, SparkPostSender sender, String html, ArrayList<SparkPostFile> files) {
+    public SparkPostEmailJsonRequest(String subject, String message, ArrayList<SparkPostRecipient> recipients, SparkPostSender sender, String html, ArrayList<SparkPostFile> files, String replyTo) {
         this.recipients = recipients;
-        this.content = new SparkPostContent(sender, subject, message, html, files, sender.toString());
+        this.content = new SparkPostContent(sender, subject, message, html, files, formatReplyToEmailAddress(replyTo));
     }
 
     public SparkPostEmailJsonRequest(String subject, String message, String recipientEmail, String senderEmail, String senderName) {
@@ -36,5 +36,17 @@ public class SparkPostEmailJsonRequest {
         return new Gson().toJson(this);
     }
 
+    private String formatReplyToEmailAddress(String addr)
+    {
+        if (addr != null && addr.length() > 0) {
+
+            if (!addr.startsWith("<"))
+                addr = "<" + addr;
+
+            if (!addr.endsWith(">"))
+                addr = addr + ">";
+        }
+        return addr;
+    }
 
 }

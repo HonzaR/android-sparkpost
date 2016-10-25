@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             String html = "<html><body>Here is your inline image!<br> <img src=\\\"cid:launcherIcon\\\"></body></html>";
+            String replyTo = "ddd@gmail.com";
 
             SparkPostEmailUtil.sendEmail(MainActivity.this,
                     etSparkPostApiKey.getText().toString(),
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                     new SparkPostSender(etSenderEmail.getText().toString(), getString(R.string.app_name)),
                     html,
                     files,
+                    replyTo,
                     new EmailListener() {
                         @Override
                         public void onSuccess() {
