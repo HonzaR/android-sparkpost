@@ -22,6 +22,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText etSparkPostApiKey, etSenderEmail, etRecipientEmail, etSubject, etContent;
     private Button btnSend;
+    private Button btnCancel;
     private ProgressDialog progressDialog;
 
     @Override
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         etSubject = (EditText) findViewById(R.id.edit_text_subject);
         etContent = (EditText) findViewById(R.id.edit_text_content);
         btnSend = (Button) findViewById(R.id.button_send);
+        btnCancel = (Button) findViewById(R.id.button_cancel);
 
         etSparkPostApiKey.setText(SPARKPOST_API_KEY);
         etSenderEmail.setText(SENDER_EMAIL);
@@ -56,11 +60,33 @@ public class MainActivity extends AppCompatActivity {
         etContent.setText(CONTENT);
 
         btnSend.setOnClickListener(btnSendOnClickListener);
+        btnCancel.setOnClickListener(btnCancelOnClickListener);
 
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("Please wait...");
+
+        Bitmap bm = BitmapFactory.decodeResource(MainActivity.this.getResources(), R.mipmap.ic_launcher);
+        saveBitmapToFile(getExternalFilesDir(null), "launcherIcon.png", bm, Bitmap.CompressFormat.PNG, 100);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        deleteFileOrDirectoryIfCan(new File(MainActivity.this.getExternalFilesDir(null) + "/"));
+    }
+
+    private View.OnClickListener btnCancelOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            SparkPostEmailUtil.cancelSending(MainActivity.this);
+        }
+    };
 
     private View.OnClickListener btnSendOnClickListener = new View.OnClickListener() {
         @Override
@@ -69,12 +95,14 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.show();
             }
 
-            File[] front = getAllFilesFromDirectory(new File(getExternalFilesDir(null) + "/" + 20173852 + "/front/"));
-
+            File[] fs = getAllFilesFromDirectory(new File(getExternalFilesDir(null) + "/"));
             ArrayList<SparkPostFile> files = new ArrayList<>();
-            files.add(new SparkPostFile("image/jpeg", "front", getBase64FromFile(front[0])));
 
-            String html = "<html><body>Here is your inline image!<br> <img src=\\\"cid:front\\\"></body></html>";
+            for (int i = 0; i < fs.length; i++) {
+                files.add(new SparkPostFile("image/png", "launcherIcon" + i, getBase64FromFile(fs[i])));
+            }
+
+            String html = "<html><body>Here is your inline image!<br> <img src=\\\"cid:launcherIcon\\\"></body></html>";
 
             SparkPostEmailUtil.sendEmail(MainActivity.this,
                     etSparkPostApiKey.getText().toString(),
@@ -87,9 +115,11 @@ public class MainActivity extends AppCompatActivity {
                     new EmailListener() {
                         @Override
                         public void onSuccess() {
+
                             if (progressDialog != null && progressDialog.isShowing()) {
                                 progressDialog.dismiss();
                             }
+
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                             builder.setTitle("Success")
                                     .setMessage("Email has been sent successfully.")
@@ -98,21 +128,54 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(String errorMessage) {
+
                             if (progressDialog != null && progressDialog.isShowing()) {
                                 progressDialog.dismiss();
                             }
-                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                            builder.setTitle("Error Sending Email")
-                                    .setMessage(errorMessage)
-                                    .show();
+
+                            if (!errorMessage.equals("Canceled")) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                builder.setTitle("Error Sending Email")
+                                        .setMessage(errorMessage)
+                                        .show();
+                            }
+
                             Log.e(TAG, "Error sending SparkPost email: " + errorMessage);
                         }
                     });
         }
     };
 
+    public boolean saveBitmapToFile(File dir, String fileName, Bitmap bm, Bitmap.CompressFormat format, int quality)
+    {
 
-    public static File[] getAllFilesFromDirectory(File dir)
+        File imageFile = new File(dir,fileName);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(imageFile);
+
+            bm.compress(format,quality,fos);
+
+            fos.close();
+
+            return true;
+        }
+        catch (IOException e) {
+            Log.e("app",e.getMessage());
+
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+    public File[] getAllFilesFromDirectory(File dir)
     {
         File[] files = null;
         if (dir.exists()) {
@@ -121,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
         return files;
     }
 
-    public static String getBase64FromFile(File file)
+    public String getBase64FromFile(File file)
     {
         FileInputStream fis = null;
         try {
@@ -132,8 +195,24 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bm = BitmapFactory.decodeStream(fis);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] b = baos.toByteArray();
         return Base64.encodeToString(b, Base64.DEFAULT);
+    }
+
+    public boolean deleteFileOrDirectoryIfCan(File fileOrDirectory)
+    {
+        try {
+            if (fileOrDirectory.isDirectory()) {
+                for (File child : fileOrDirectory.listFiles()) {
+                    deleteFileOrDirectoryIfCan(child);
+                }
+            }
+            fileOrDirectory.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

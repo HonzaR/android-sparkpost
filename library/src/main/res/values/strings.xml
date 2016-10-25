@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">library</string>
+    <string name="app_name">SparkPost</string>
     <!-- common -->
     <string name="ncutils_yes">Yes</string>
     <string name="ncutils_no">No</string>
@@ -13,5 +13,6 @@
     <string name="ncutils_done">Done</string>
     <string name="ncutils_error">Error occurred!</string>
     <string name="ncutils_network_error">Network Error</string>
+    <string name="ncutils_canceled">Canceled</string>
     <string name="ncutils_comma">\u002c\u0020</string>
 </resources>

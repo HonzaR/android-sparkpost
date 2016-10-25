@@ -20,7 +20,7 @@ public class SparkPostEmailJsonRequest {
 
     public SparkPostEmailJsonRequest(String subject, String message, ArrayList<SparkPostRecipient> recipients, SparkPostSender sender, String html, ArrayList<SparkPostFile> files) {
         this.recipients = recipients;
-        this.content = new SparkPostContent(sender, subject, message, html, files);
+        this.content = new SparkPostContent(sender, subject, message, html, files, sender.toString());
     }
 
     public SparkPostEmailJsonRequest(String subject, String message, String recipientEmail, String senderEmail, String senderName) {
@@ -29,7 +29,7 @@ public class SparkPostEmailJsonRequest {
         this.recipients.add(recipient);
 
         SparkPostSender sender = new SparkPostSender("feedback@sparkpostbox.com", senderName);
-        this.content = new SparkPostContent(sender, subject, message, null, null);
+        this.content = new SparkPostContent(sender, subject, message, null, null, null);
     }
 
     public String toString() {

@@ -8,8 +8,10 @@ package com.honzar.sparkpostutil.library;
  * honzar@appsdevteam.com
  */
 public class SparkPostSender {
+
     private String name;
     private String email;
+
     public SparkPostSender(String email, String name) {
         this.email = email;
         this.name = name;
@@ -21,5 +23,10 @@ public class SparkPostSender {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "<" + email + ">";
     }
 }

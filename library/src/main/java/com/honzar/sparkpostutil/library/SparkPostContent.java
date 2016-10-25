@@ -14,13 +14,15 @@ public class SparkPostContent {
     private String text;
     private String html;
     private ArrayList<SparkPostFile> inline_images;
+    private String reply_to;
 
-    public SparkPostContent(SparkPostSender from, String subject, String text, String html, ArrayList<SparkPostFile> files) {
+    public SparkPostContent(SparkPostSender from, String subject, String text, String html, ArrayList<SparkPostFile> files, String reply_to) {
         this.from = from;
         this.subject = subject;
         this.text = text;
         this.html = html;
         this.inline_images = files;
+        this.reply_to = reply_to;
 
     }
 
@@ -44,4 +46,7 @@ public class SparkPostContent {
         return html;
     }
 
+    public String getReply_to() {
+        return reply_to;
+    }
 }

@@ -66,7 +66,7 @@ public class SparkPostEmailUtil {
                             return;
                         }
                     }
-                    emailListener.onError("No response.");
+                    emailListener.onError(context.getString(R.string.ncutils_canceled));
 
                 } catch (Exception e1) {
                     e1.printStackTrace();
@@ -83,6 +83,11 @@ public class SparkPostEmailUtil {
                 .setStringBody(sparkPostEmailJsonRequest.toString())
                 .asString()
                 .setCallback(callback);
+    }
+
+    public static void cancelSending(final Context context)
+    {
+        Ion.getDefault(context).cancelAll();
     }
 
 }
