@@ -1,6 +1,6 @@
 # android-sparkpost-with-attachments
 
-[![Release](https://jitpack.io/v/noelchew/android-sparkpost.svg)](https://jitpack.io/#noelchew/android-sparkpost)
+[![](https://jitpack.io/v/HonzaR/android-sparkpost-with-attachments.svg)](https://jitpack.io/#HonzaR/android-sparkpost-with-attachments)
 
 Android Library for SparkPost -> Email Delivery Service & Transactional Email
 
@@ -64,7 +64,7 @@ allprojects {
 Application level gradle:
 ```
 dependencies {
-    compile 'com.github.honzar:android-sparkpost-with-attachments:x.y.z'
+    compile 'com.github.HonzaR:android-sparkpost-with-attachments:x.y.z'
 }
 ```
 Note: do not add the jitpack.io repository under buildscript
