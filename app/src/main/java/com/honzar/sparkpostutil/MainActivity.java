@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private static final String SPARKPOST_API_KEY = "insert_your_sparkpost_api_key_here";
+    private static final String SPARKPOST_API_KEY = "insert_your_sparkpost_api_key_here"; //"6028f49448e67b282606a0fbee086f36df40ef82"
     private static final String SENDER_EMAIL = "sender@sparkpost.com";
     private static final String RECIPIENT_EMAIL = "your_email@gmail.com";
     private static final String SUBJECT = "SparkPostUtil - Example";
@@ -45,13 +45,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        etSparkPostApiKey = (EditText) findViewById(R.id.edit_text_sparkpost_api_key);
-        etSenderEmail = (EditText) findViewById(R.id.edit_text_sender_email);
-        etRecipientEmail = (EditText) findViewById(R.id.edit_text_recipient_email);
-        etSubject = (EditText) findViewById(R.id.edit_text_subject);
-        etContent = (EditText) findViewById(R.id.edit_text_content);
-        btnSend = (Button) findViewById(R.id.button_send);
-        btnCancel = (Button) findViewById(R.id.button_cancel);
+        etSparkPostApiKey = findViewById(R.id.edit_text_sparkpost_api_key);
+        etSenderEmail = findViewById(R.id.edit_text_sender_email);
+        etRecipientEmail = findViewById(R.id.edit_text_recipient_email);
+        etSubject = findViewById(R.id.edit_text_subject);
+        etContent = findViewById(R.id.edit_text_content);
+        btnSend = findViewById(R.id.button_send);
+        btnCancel = findViewById(R.id.button_cancel);
 
         etSparkPostApiKey.setText(SPARKPOST_API_KEY);
         etSenderEmail.setText(SENDER_EMAIL);
